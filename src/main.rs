@@ -28,14 +28,15 @@ fn main() {
             let mut input =  Vec::new();
             let stdin = std::io::stdin();
             let mut handle = stdin.lock();
-            handle.read_to_end(&mut input);
-            let jstr=String::from_utf8(input).expect("Our bytes should be valid utf8");
-            let json=serde_json::from_str::<Value>(jstr.as_str()).expect("provided data is not valid json");
+            handle.read_to_end(&mut input).expect("no input provided");
+            let j_str =String::from_utf8(input).expect("Our bytes should be valid utf8");
+            let json=serde_json::from_str::<Value>(j_str.as_str()).expect("provided data is not valid json");
             if let Some(path)=pth{
                 let v = path.find(&json);
                 println!("{}",serde_json::to_string_pretty(&v).expect("Output is not json"))
+            } else {
+                println!("{}",serde_json::to_string_pretty(&json).expect("Output is not json"))
             }
-
         }
     }
 }
